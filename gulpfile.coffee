@@ -6,7 +6,7 @@ glob = require('glob')
 streamConvert = require('vinyl-source-stream')
 
 gulp.task 'coffee', () ->
-  gulp.src('./src/*.coffee')
+  gulp.src('./src/**/*.coffee')
   .pipe(coffee({ bare: true }).on('error', gutil.log))
   .pipe(gulp.dest('./lib/'))
 
