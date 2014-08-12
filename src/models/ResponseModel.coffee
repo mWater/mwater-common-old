@@ -1,7 +1,7 @@
 _ = require 'lodash'
 
-createUid = require('../index').createUid
-createBase32TimeCode = require('../index').createBase32TimeCode
+createUid = require('../utils').createUid
+createBase32TimeCode = require('../utils').createBase32TimeCode
 
 # Model of a response object that allows manipulation and asking of questions
 module.exports = class ResponseModel
