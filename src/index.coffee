@@ -2,6 +2,7 @@ exports.schemas = require './schemas'
 exports.FormModel = require './models/FormModel'
 exports.ResponseModel = require './models/ResponseModel'
 exports.siteCodes = require './siteCodes'
+exports.siteTypes = require './siteTypes'
 
 # Create ~ 128-bit uid that starts with c, d, e or f
 exports.createUid = -> 
