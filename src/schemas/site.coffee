@@ -125,6 +125,9 @@ module.exports = {
       additionalProperties: false
     }
 
+    # Optional attributes. 
+    attrs: { type: "object" }
+
     # Optional custom fields, arranged by group name. e.g { "WaterHelpers" : { <custom key value pairs> } }
     custom: { type: "object" }
 
