@@ -75,7 +75,7 @@ module.exports = {
           # _id of the site question
           _id: { type: "string" }
         }
-        required: ["question"]
+        required: ["_id"]
         additionalProperties: "false"
       }
     }
