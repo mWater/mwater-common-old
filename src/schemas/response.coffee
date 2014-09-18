@@ -48,6 +48,27 @@ module.exports = {
     # Response date. Organized by question id. See mwater-forms for more details
     data: { type: "object" }
 
+    # List of answers to site questions in the response. Used
+    # for easy searching of site-related responses. In order
+    # that they appear in the form.
+    siteAnswers: {
+      type: "array"
+      items: {
+        type: "object"
+        properties: {
+          # _id of the site question
+          question: { type: "string" }
+
+          # Code of the site
+          code: { 
+            type: "string"
+            pattern: "^[0-9]{5,}$"
+          }
+        }
+        required: ["question", "code"]
+        additionalProperties: "false"
+      }
+    }
     roles: rolesSchema
 
     # When response was started
@@ -55,7 +76,7 @@ module.exports = {
 
     # When response was last submitted (to pending or final)
     submittedOn: { type: "string", format: "date-time" }
-    
+
     created: createdModifiedSchema
     modified: createdModifiedSchema
     removed: createdModifiedSchema

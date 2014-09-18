@@ -424,3 +424,40 @@ describe "ResponseModel", ->
       @model = new ResponseModel(@response, @form, "user", ["dep2en1"])
       assert.throws ->
         @model.draft()
+
+  describe "siteAnswers", ->
+    beforeEach ->
+      @form = _.cloneDeep(sampleForm)
+      @form.siteQuestions = [
+        { _id: "q1" }
+        { _id: "q2" }
+      ]
+
+      @response = {}
+      @model = new ResponseModel(@response, @form, "user", ["dep1en1", "dep1admin1"])
+      @model.draft()
+
+    it "does not update on draft", ->
+      @response.data.q2 = { value: { code: "1234" } }
+      @model.draft()
+
+      assert.isUndefined @response.siteAnswers
+
+    it "updates site answers on submit", ->
+      @response.data.q2 = { value: { code: "1234" } }
+      @model.submit()
+
+      assert.deepEqual @response.siteAnswers, [
+        { question: "q2", code: "1234" }
+      ]
+
+    it "updates site answers on finalize", ->
+      @response.data.q2 = { value: { code: "1234" } }
+      @model.submit()
+
+      @response.data.q2 = { value: { code: "5678" } }
+      @model.approve()
+
+      assert.deepEqual @response.siteAnswers, [
+        { question: "q2", code: "5678" }
+      ]
