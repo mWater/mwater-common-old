@@ -54,7 +54,6 @@ module.exports = class ResponseModel
       @response.approvals = []
 
     @fixRoles()
-    @updateSiteAnswers()
 
   # Approve response
   approve: ->
@@ -82,7 +81,6 @@ module.exports = class ResponseModel
       @response.status = "final"
 
     @fixRoles()
-    @updateSiteAnswers()
 
   # Reject a response with a specific rejection message
   reject: (message) ->
@@ -198,21 +196,4 @@ module.exports = class ResponseModel
       subjects = subjects.concat(_.map @groups, (g) -> "group:" + g)
 
       return _.intersection(admins, subjects).length > 0
-
-  # Updates the siteAnswers field by extracting answered site questions
-  updateSiteAnswers: ->
-    if @form.siteQuestions
-      @response.siteAnswers = []
-
-      for siteQuestion in @form.siteQuestions
-        if @response.data[siteQuestion._id] and @response.data[siteQuestion._id].value and @response.data[siteQuestion._id].value.code
-          @response.siteAnswers.push({ question: siteQuestion._id, code: @response.data[siteQuestion._id].value.code })
-    else
-      delete @response.siteAnswers
-
-    return
-
-
-
-
 

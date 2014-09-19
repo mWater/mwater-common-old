@@ -63,23 +63,7 @@ module.exports = {
 
     # See mwater-forms for the schema
     design: { type: "object" } 
-
-    # List of site questions contained in design. Set on server
-    # for easy searching of site-related forms. In order
-    # that they appear in the form
-    siteQuestions: {
-      type: "array"
-      items: {
-        type: "object"
-        properties: {
-          # _id of the site question
-          _id: { type: "string" }
-        }
-        required: ["_id"]
-        additionalProperties: "false"
-      }
-    }
-
+    
     roles: rolesSchema
     created: createdModifiedSchema
     modified: createdModifiedSchema
