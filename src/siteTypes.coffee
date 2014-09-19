@@ -4,6 +4,10 @@
 T = (str) ->
   return str
 
+# NOTE: These are not translated! The T() wrapper is used to ensure that the localizer sees them and 
+# makes translations available. T() is overridden above to do nothing here. To translate them,
+# use T(...) in the app.
+
 module.exports = [
   { 
     name: T("Water point")
