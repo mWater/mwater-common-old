@@ -77,7 +77,7 @@ module.exports = class ResponseModel
     @response.approvals.push approval
 
     # Check if last stage
-    if @response.approvals.length == deployment.approvalStages.length
+    if @response.approvals.length >= deployment.approvalStages.length
       @response.status = "final"
 
     @fixRoles()
@@ -99,6 +99,15 @@ module.exports = class ResponseModel
 
   # Fixes roles to reflect status and approved fields
   fixRoles: ->
+    # Determine deployment
+    deployment = _.findWhere(@form.deployments, { _id: @response.deployment })
+    if not deployment
+      throw new Error("No matching deployments")
+
+    # If more or equal approvals than approval stages, response is final
+    if @response.approvals.length >= deployment.approvalStages.length
+      @response.status = "final"
+
     # User is always admin, unless final, then viewer
     if @response.status == 'final'
       admins = []
@@ -109,11 +118,6 @@ module.exports = class ResponseModel
 
     # Add form admins always
     admins = _.union admins, _.pluck(_.where(@form.roles, { role: "admin"}), "id")
-
-    # Determine deployment
-    deployment = _.findWhere(@form.deployments, { _id: @response.deployment })
-    if not deployment
-      throw new Error("No matching deployments")
 
     # Add deployment admins
     admins = _.union admins, deployment.admins

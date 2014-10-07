@@ -141,6 +141,11 @@ describe "ResponseModel", ->
     it "does not include deployment viewers", ->
      assert.equal _.where(@response.roles, { id: "group:dep2view1"}).length, 0
 
+    it "makes response final if approval stage deleted", ->
+      @form.deployments[1].approvalStages = []
+      @model.fixRoles()
+      assert.equal @response.status, "final"
+ 
   describe "approval when last stage", ->
     beforeEach ->
       @response = { }
