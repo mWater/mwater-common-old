@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 # Create ~ 128-bit uid that starts with c, d, e or f
 exports.createUid = -> 
   'zxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace /[xyz]/g, (c) ->
@@ -35,3 +37,14 @@ exports.createBase32TimeCode = (date) ->
     code = chars[num] + code
 
   return code
+
+# Checks if a user with groups has a particular role. If no role specified, check for any role
+exports.checkHasRole = (roles, user, groups, role) ->
+  # Calculate my ids for searching roles
+  ids = ["user:" + user, "all"]
+  ids = ids.concat(_.map(groups, (g) -> "group:" + g))
+
+  if role
+    return _.find(roles, (r) -> (r.id in ids) and r.role == role)?
+  else
+    return _.find(roles, (r) -> (r.id in ids))?
