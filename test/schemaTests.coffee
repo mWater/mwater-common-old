@@ -164,7 +164,9 @@ describe "folder schema", ->
       ],
       contents: [
         { _id: "12345", type: "form" }
-      ]
+      ],
+      name: "Some name"
+      desc: "Some desc"
   }
     
   it "validates if correct", ->

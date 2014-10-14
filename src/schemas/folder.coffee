@@ -8,6 +8,12 @@ module.exports = {
     _id: { type: "string" }
     _rev: { type: "integer" }
 
+    # Name of the folder
+    name: { type: "string", minLength: 3 }
+
+    # Optional description of the folder
+    desc: { type: "string" }
+
     contents: {
       type: "array"
       items: {
