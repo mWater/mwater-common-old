@@ -1,4 +1,5 @@
 exports.site = require './site'
+exports.folder = require './folder'
 exports.form = require './form'
 exports.response = require './response'
 exports.sensor = require './sensor'

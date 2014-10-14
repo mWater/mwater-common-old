@@ -6,6 +6,7 @@ jjv = require 'jjv'
 schemaEnv = jjv()
 schemaEnv.addSchema("site", schemas.site)
 schemaEnv.addSchema("response", schemas.response)
+schemaEnv.addSchema("folder", schemas.folder)
 
 describe "site schema", ->
   beforeEach ->
@@ -136,3 +137,41 @@ describe "response schema", ->
   it "validates if correct", ->
     errors = schemaEnv.validate("response", @response)
     assert.isNull errors, JSON.stringify(errors)
+
+
+describe "folder schema", ->
+  beforeEach ->
+    @folder = {
+      "_id" : "1234",
+      "_rev" : 27,
+      "created" : {
+          "on" : "2014-06-13T09:35:51.337Z",
+          "by" : "user123"
+      },
+      "modified" : {
+          "on" : "2014-06-24T13:54:33.481Z",
+          "by" : "user123"
+      },
+      "roles" : [ 
+          {
+              "id" : "user:user123",
+              "role" : "admin"
+          }, 
+          {
+              "id" : "group:Team",
+              "role" : "view"
+          }
+      ],
+      contents: [
+        { _id: "12345", type: "form" }
+      ]
+  }
+    
+  it "validates if correct", ->
+    errors = schemaEnv.validate("folder", @folder)
+    assert.isNull errors, JSON.stringify(errors)
+
+  it "fails validation if unknown type", ->
+    @folder.contents.push { _id: "1234", type: "xyz" }
+    errors = schemaEnv.validate("folder", @folder)
+    assert.isNotNull errors, JSON.stringify(errors)
