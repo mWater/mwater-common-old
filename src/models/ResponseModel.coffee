@@ -104,8 +104,8 @@ module.exports = class ResponseModel
     if not deployment
       throw new Error("No matching deployments")
 
-    # If more or equal approvals than approval stages, response is final
-    if @response.approvals? and @response.approvals.length >= deployment.approvalStages.length
+    # If pending and more or equal approvals than approval stages, response is final
+    if @response.status == "pending" and @response.approvals? and @response.approvals.length >= deployment.approvalStages.length
       @response.status = "final"
 
     # User is always admin, unless final, then viewer

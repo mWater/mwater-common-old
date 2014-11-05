@@ -145,6 +145,12 @@ describe "ResponseModel", ->
       @form.deployments[1].approvalStages = []
       @model.fixRoles()
       assert.equal @response.status, "final"
+
+    it "makes does not make draft response final if approval stage deleted", ->
+      @response.status = "draft"
+      @form.deployments[1].approvalStages = []
+      @model.fixRoles()
+      assert.equal @response.status, "draft"
  
   describe "approval when last stage", ->
     beforeEach ->
