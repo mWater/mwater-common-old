@@ -170,6 +170,10 @@ module.exports = class ResponseModel
 
     return _.intersection(admins, subjects).length > 0
 
+  # Determine if can edit response
+  canEdit: ->
+    return @canDelete()
+
   # Determine if can switch back to draft phase
   canRedraft: ->
     return @canDelete()
