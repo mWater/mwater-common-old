@@ -172,6 +172,9 @@ module.exports = class ResponseModel
 
   # Determine if can edit response
   canEdit: ->
+    # Cannot edit if in pending and are not an admin
+    if @response.status == "pending" and not @canApprove()
+      return false
     return @canDelete()
 
   # Determine if can switch back to draft phase

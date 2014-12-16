@@ -380,6 +380,48 @@ describe "ResponseModel", ->
       @model = new ResponseModel(@response, @form, "user2", ["dep1admin1"])
       assert @model.canDelete()
 
+  describe "canEdit", ->
+    beforeEach ->
+      @response = { }
+      @form = _.cloneDeep(sampleForm)
+
+      @model = new ResponseModel(@response, @form, "user", ["dep1en1"])
+      @model.draft()
+
+    it "can edit if enumerator", ->
+      assert @model.canEdit()
+
+    it "cannot edit pending if enumerator", ->
+      @model.submit()
+      assert not @model.canEdit()
+
+    it "can edit rejected if enumerator", ->
+      @model.submit()
+      @model = new ResponseModel(@response, @form, "user2", ["dep1ap1"])
+      @model.reject("bad")
+      @model = new ResponseModel(@response, @form, "user", ["dep2en1"])
+      assert @model.canEdit()
+
+    it "cannot edit final if enumerator", ->
+      @model.submit()
+      @model = new ResponseModel(@response, @form, "user2", ["dep1ap1"])
+      @model.approve()
+      @model = new ResponseModel(@response, @form, "user", ["dep2en1"])
+      assert not @model.canEdit()
+
+    it "cannot edit final if approver", ->
+      @model.submit()
+      @model = new ResponseModel(@response, @form, "user2", ["dep1ap1"])
+      @model.approve()
+      assert not @model.canEdit()
+
+    it "can edit final if admin", ->
+      @model.submit()
+      @model = new ResponseModel(@response, @form, "user2", ["dep1ap1"])
+      @model.approve()
+      @model = new ResponseModel(@response, @form, "user2", ["dep1admin1"])
+      assert @model.canEdit()
+
   describe "canApprove", ->
     beforeEach ->
       @response = { }
