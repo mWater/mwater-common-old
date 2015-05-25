@@ -56,7 +56,8 @@ module.exports = {
     # When response was last submitted (to pending or final)
     submittedOn: { type: "string", format: "date-time" }
 
-    entity: { type: "string" }
+    # Name of draft
+    draftName: { type: "string" }
     
     created: createdModifiedSchema
     modified: createdModifiedSchema
